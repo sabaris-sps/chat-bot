@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body class="overflow-hidden">
+    <div class="container ">
+        <div class="row w-100 justify-content-center align-items-center">
+            <h1 class="sticky-top text-primary justify-content-center w-auto">Chatbot <span
+                    class="badge text-bg-info fs-6 fw-normal">by
+                    Sabaris</span></h1>
+        </div>
+
+        <div class="fs-4 chatbox w-100 p-3 border border-info border-3 rounded my-3 overflow-auto"
+            style="height:70vh!important;" id="chatbox">
+        </div>
+        <div class="row my-2 justify-content-center align-items-center ">
+        </div>
+        <form onsubmit="return sendMessage()" class="my-3 row justify-content-center align-items-center sticky-bottom">
+            <div class="col-1">
+                <button type="button" class="btn btn-danger w-auto" id="clearBtn">
+                    <i class=" fa fa-trash" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="col-9">
+                <input class="form-control form-control-lg w-100 " type="text" placeholder="Enter your message here..."
+                    id="userInput">
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-warning btn-lg">Send</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function sendMessage() {
+            var userInput = document.getElementById("userInput").value;
+            document.getElementById("userInput").value = "";
+            var chatbox = document.getElementById("chatbox");
+            chatbox.innerHTML += "<strong>You:</strong> " + userInput + "<br>";
+            $.get("/get", { prompt: userInput }).done(function (response) {
+                chatbox.innerHTML += "<strong>AI:</strong> " + response + "<br>";
+            });
+            chatbox.scrollTop = chatbox.scrollHeight;
+            return false;
+        }
+        document.getElementById("clearBtn").addEventListener("click", () => {
+            document.getElementById("chatbox").innerHTML = "";
+        });
+    </script>
+
+</body>
+
+</html>
